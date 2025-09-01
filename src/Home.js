@@ -7,7 +7,7 @@ function Home() {
         <div className="home-menu">
             <ul>
                 <li>
-                    <Link to="/family-4gen">Xem gia phả</Link>
+                    <Link to="/family-4gen">Gia phả họ Trần</Link>
                 </li>
                 {/* <li>
                     <Link to="/family">Xem toàn bộ cây gia đình</Link>

@@ -11,6 +11,24 @@ function LimitedFamilyTreePage() {
         }
     };
 
+    // Helper to get node by path
+    function getNodeByPath(tree, path) {
+        let node = tree[0];
+        for (const idx of path) {
+            if (!node.children || !node.children[idx]) return null;
+            node = node.children[idx];
+        }
+        return node;
+    }
+
+    // Only set as root if node has children
+    const handleNodeClick = (path) => {
+        const node = getNodeByPath(require('./treeData.json'), path);
+        if (node && node.children && node.children.length > 0) {
+            setRootNodePath(path);
+        }
+    };
+
     return (
         <div>
             <button
@@ -29,7 +47,7 @@ function LimitedFamilyTreePage() {
             <FamilyTree
                 rootNodePath={rootNodePath}
                 maxGenerations={3}
-                onNodeClick={setRootNodePath}
+                onNodeClick={handleNodeClick}
                 centerRootOnChange
             />
         </div>

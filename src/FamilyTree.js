@@ -37,10 +37,9 @@ function CustomNode({ data, selected, setActiveId, id }) {
                 justifyContent: 'center',
                 padding: '10px',
                 borderRadius: '8px',
-                width: 150,
-                height: 'fit-content',
+                width: 200,
                 background: bgColor,
-                minHeight: '120px',
+                height: '150px',
                 color: '#333',
                 boxShadow: selected
                     ? '0 0 10px rgba(0,0,0,0.4), 0 0 0 2px #ff4d4f'
@@ -85,8 +84,8 @@ function CustomNode({ data, selected, setActiveId, id }) {
 }
 // --- Thuật toán sắp xếp cây ---
 let globalIndex = 0;
-const X_SPACING = 160; // 🔹 khoảng cách ngang
-const Y_SPACING = 260; // 🔹 khoảng cách dọc (tùy chỉnh tại đây)
+const X_SPACING = 220; // 🔹 khoảng cách ngang
+const Y_SPACING = 300; // 🔹 khoảng cách dọc (tùy chỉnh tại đây)
 
 // function layoutTree(
 //     node,
@@ -265,7 +264,7 @@ function CayGiaPha({
         if (!node) return;
         setActiveId(id);
         // Move node higher by subtracting 120 from y position
-        setCenter(node.position.x, node.position.y + 250, {
+        setCenter(node.position.x, node.position.y + 350, {
             zoom: 0.8,
             duration: 800,
         });
@@ -303,7 +302,7 @@ function CayGiaPha({
     useEffect(() => {
         if (nodes.length > 0) {
             // setActiveId(nodes[0].id);
-            setCenter(nodes[0].position.x + 70, nodes[0].position.y + 280, {
+            setCenter(nodes[0].position.x + 70, nodes[0].position.y + 350, {
                 zoom: 0.8,
                 duration: 800,
             });
@@ -404,7 +403,7 @@ function CayGiaPha({
                     title={
                         <Flex vertical>
                             <span>{activeNode.data.label}</span>
-                            <span>{`(${activeNode.data.description})`}</span>
+                            <span>{`${activeNode.data.description}`}</span>
                         </Flex>
                     }
                     style={floatingPanelStyle}
@@ -495,7 +494,7 @@ export default function GiaPha(props) {
     // Support rootNodePath and maxGenerations props for limited view
     return (
         <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-            <button
+            {/* <button
                 onClick={() => (window.location.href = '/')}
                 style={{
                     position: 'fixed',
@@ -514,7 +513,7 @@ export default function GiaPha(props) {
                 }}
             >
                 Quay về Menu
-            </button>
+            </button> */}
             <ReactFlowProvider>
                 <CayGiaPha tree={treeData} {...props} />
             </ReactFlowProvider>
