@@ -21,7 +21,7 @@
                             },
                             {
                                 "name": "Tằng Tổ Phái Thứ - Trần Văn Hiên",
-                                "description": "(Huyên)",
+                                "description": "Huyên",
                                 "image": "/logo192.png",
                                 "children": [
                                     {
@@ -45,7 +45,7 @@
                                     },
                                     {
                                         "name": "Trần Văn Nghĩa",
-                                        "description": "(Huyên)",
+                                        "description": "",
                                         "image": "/logo192.png",
                                         "children": [
                                             {
@@ -55,7 +55,7 @@
                                             },
                                             {
                                                 "name": "Trần Dĩ",
-                                                "description": "(Huyên)",
+                                                "description": "",
                                                 "image": "/logo192.png"
                                             }
                                         ]
@@ -263,7 +263,7 @@
                                             },
                                             {
                                                 "name": "Trần Văn Kế",
-                                                "description": "(Huyên)",
+                                                "description": "",
                                                 "image": "/logo192.png",
                                                 "children": [
                                                     {
@@ -490,7 +490,7 @@
                             },
                             {
                                 "name": "Trần Văn Tài",
-                                "description": "(Huyên)",
+                                "description": "",
                                 "image": "/logo192.png"
                             },
                             {
@@ -500,7 +500,7 @@
                             },
                             {
                                 "name": "Trần Kim",
-                                "description": "(Huyên)",
+                                "description": "",
                                 "image": "/logo192.png"
                             },
                             {

@@ -7,12 +7,12 @@ import ReactFlow, {
     ReactFlowProvider,
     useReactFlow,
 } from 'reactflow';
-import { Button, Card, Flex, Input } from 'antd';
+import { Button, Card, Flex } from 'antd';
 import 'reactflow/dist/style.css';
 import 'antd/dist/reset.css';
 import treeData from './treeData.json';
 
-const { Search } = Input;
+// const { Search } = Input;
 
 // 🔹 Bảng màu cho từng đời
 const levelColors = [
@@ -25,7 +25,7 @@ const levelColors = [
 ];
 
 // --- Node Tùy Chỉnh ---
-function CustomNode({ data, selected }) {
+function CustomNode({ data, selected, setActiveId, id }) {
     const bgColor = levelColors[data.level % levelColors.length];
 
     return (
@@ -70,7 +70,14 @@ function CustomNode({ data, selected }) {
                     {data.description}
                 </div>
             </Card>
-
+            <Button
+                type="link"
+                size="small"
+                style={{ padding: 0, fontSize: 13 }}
+                onClick={() => setActiveId && setActiveId(id)}
+            >
+                Xem chi tiết
+            </Button>
             <Handle type="target" position={Position.Top} />
             <Handle type="source" position={Position.Bottom} />
         </div>
@@ -81,46 +88,66 @@ let globalIndex = 0;
 const X_SPACING = 160; // 🔹 khoảng cách ngang
 const Y_SPACING = 260; // 🔹 khoảng cách dọc (tùy chỉnh tại đây)
 
-function layoutTree(node, level = 0, parentId = null, nodes = [], edges = []) {
-    const id = `${parentId ? parentId + '-' : ''}${globalIndex++}`;
-    const nodeData = {
-        id,
-        type: 'custom',
-        position: { x: 0, y: level * Y_SPACING }, // 🔹 dùng Y_SPACING thay vì số cứng
-        data: {
-            label: node.name,
-            description: node.description,
-            image: node.image,
-            level,
-        },
-    };
-    nodes.push(nodeData);
+// function layoutTree(
+//     node,
+//     level = 0,
+//     parentId = null,
+//     nodes = [],
+//     edges = [],
+//     maxGenerations = Infinity
+// ) {
+//     const id = `${parentId ? parentId + '-' : ''}${globalIndex++}`;
+//     const nodeData = {
+//         id,
+//         type: 'custom',
+//         position: { x: 0, y: level * Y_SPACING },
+//         data: {
+//             label: node.name,
+//             description: node.description,
+//             image: node.image,
+//             level,
+//         },
+//         treePath: [...(arguments[6] || [])], // pass treePath for node click
+//     };
+//     nodes.push(nodeData);
 
-    if (parentId !== null) {
-        edges.push({
-            id: `e${parentId}-${id}`,
-            source: parentId,
-            target: id,
-            type: 'step',
-            style: { stroke: '#555', strokeWidth: 2 },
-        });
-    }
+//     if (parentId !== null) {
+//         edges.push({
+//             id: `e${parentId}-${id}`,
+//             source: parentId,
+//             target: id,
+//             type: 'step',
+//             style: { stroke: '#555', strokeWidth: 2 },
+//         });
+//     }
 
-    if (node.children && node.children.length > 0) {
-        const childPositions = [];
-        node.children.forEach((child) => {
-            const childPos = layoutTree(child, level + 1, id, nodes, edges);
-            childPositions.push(childPos);
-        });
-        const minX = Math.min(...childPositions.map((c) => c.x));
-        const maxX = Math.max(...childPositions.map((c) => c.x));
-        nodeData.position.x = (minX + maxX) / 2;
-    } else {
-        nodeData.position.x = globalIndex * X_SPACING; // 🔹 dùng X_SPACING thay vì số cứng
-    }
+//     if (
+//         level + 1 < maxGenerations &&
+//         node.children &&
+//         node.children.length > 0
+//     ) {
+//         const childPositions = [];
+//         node.children.forEach((child, idx) => {
+//             const childPos = layoutTree(
+//                 child,
+//                 level + 1,
+//                 id,
+//                 nodes,
+//                 edges,
+//                 maxGenerations,
+//                 [...(arguments[6] || []), idx]
+//             );
+//             childPositions.push(childPos);
+//         });
+//         const minX = Math.min(...childPositions.map((c) => c.x));
+//         const maxX = Math.max(...childPositions.map((c) => c.x));
+//         nodeData.position.x = (minX + maxX) / 2;
+//     } else {
+//         nodeData.position.x = globalIndex * X_SPACING;
+//     }
 
-    return nodeData.position;
-}
+//     return nodeData.position;
+// }
 
 // --- Hook lấy chiều rộng màn hình ---
 function useWindowWidth() {
@@ -134,50 +161,154 @@ function useWindowWidth() {
 }
 
 // --- Component chính ---
-function CayGiaPha({ tree }) {
-    const nodeTypes = { custom: CustomNode };
+function CayGiaPha({
+    tree,
+    rootNodePath = [],
+    maxGenerations = Infinity,
+    onNodeClick,
+}) {
+    const nodeTypes = {
+        custom: (props) => <CustomNode {...props} setActiveId={setActiveId} />,
+    };
     const [activeId, setActiveId] = useState(null);
-    const { setCenter } = useReactFlow();
+
+    const { setCenter, fitView } = useReactFlow();
     const width = useWindowWidth();
 
+    // Traverse tree by rootNodePath
+    let rootNode = tree[0];
+    for (const idx of rootNodePath) {
+        if (rootNode.children && rootNode.children[idx]) {
+            rootNode = rootNode.children[idx];
+        } else {
+            break;
+        }
+    }
     const { nodes, edges } = useMemo(() => {
         globalIndex = 0;
         const nodes = [];
         const edges = [];
-        layoutTree(tree[0], 0, null, nodes, edges);
+        // Pass rootNodePath as prefix to all treePath
+        function layoutTreeWithPrefix(
+            node,
+            level = 0,
+            parentId = null,
+            nodes = [],
+            edges = [],
+            maxGenerations = Infinity,
+            treePath = []
+        ) {
+            const id = `${parentId ? parentId + '-' : ''}${globalIndex++}`;
+            const nodeData = {
+                id,
+                type: 'custom',
+                position: { x: 0, y: level * Y_SPACING },
+                data: {
+                    label: node.name,
+                    description: node.description,
+                    image: node.image,
+                    level,
+                },
+                treePath: [...rootNodePath, ...treePath],
+            };
+            nodes.push(nodeData);
+            if (parentId !== null) {
+                edges.push({
+                    id: `e${parentId}-${id}`,
+                    source: parentId,
+                    target: id,
+                    type: 'step',
+                    style: { stroke: '#555', strokeWidth: 2 },
+                });
+            }
+            if (
+                level + 1 < maxGenerations &&
+                node.children &&
+                node.children.length > 0
+            ) {
+                const childPositions = [];
+                node.children.forEach((child, idx) => {
+                    const childPos = layoutTreeWithPrefix(
+                        child,
+                        level + 1,
+                        id,
+                        nodes,
+                        edges,
+                        maxGenerations,
+                        [...treePath, idx]
+                    );
+                    childPositions.push(childPos);
+                });
+                const minX = Math.min(...childPositions.map((c) => c.x));
+                const maxX = Math.max(...childPositions.map((c) => c.x));
+                nodeData.position.x = (minX + maxX) / 2;
+            } else {
+                nodeData.position.x = globalIndex * X_SPACING;
+            }
+            return nodeData.position;
+        }
+        layoutTreeWithPrefix(
+            rootNode,
+            0,
+            null,
+            nodes,
+            edges,
+            maxGenerations,
+            []
+        );
         return { nodes, edges };
-    }, [tree]);
+    }, [rootNodePath, rootNode, maxGenerations]);
 
     // Zoom vào node
     const focusNode = (id) => {
         const node = nodes.find((n) => n.id === id);
         if (!node) return;
         setActiveId(id);
-        setCenter(node.position.x, node.position.y, {
-            zoom: 0.9,
+        // Move node higher by subtracting 120 from y position
+        setCenter(node.position.x, node.position.y + 250, {
+            zoom: 0.8,
             duration: 800,
         });
     };
 
-    const handleSearch = (value) => {
-        if (!value) {
-            setActiveId(null);
-            return;
-        }
-        const match = nodes.find((n) =>
-            n.data.label.toLowerCase().includes(value.toLowerCase())
-        );
-        if (match) {
-            focusNode(match.id);
-        } else {
-            setActiveId(null);
-        }
-    };
+    // const handleSearch = (value) => {
+    //     if (!value) {
+    //         setActiveId(null);
+    //         return;
+    //     }
+    //     const match = nodes.find((n) =>
+    //         n.data.label.toLowerCase().includes(value.toLowerCase())
+    //     );
+    //     if (match) {
+    //         focusNode(match.id);
+    //     } else {
+    //         setActiveId(null);
+    //     }
+    // };
 
     const nodesWithSelection = nodes.map((n) => ({
         ...n,
         selected: n.id === activeId,
     }));
+
+    // Focus on root node and fit all nodes in view when rootNodePath or nodes change
+    useEffect(() => {
+        if (nodes.length > 0) {
+            // setActiveId(nodes[0].id);
+            fitView({ duration: 800, padding: 0.1 });
+        }
+    }, [rootNodePath, nodes, fitView]);
+
+    // Focus on root node when rootNodePath changes
+    useEffect(() => {
+        if (nodes.length > 0) {
+            // setActiveId(nodes[0].id);
+            setCenter(nodes[0].position.x + 70, nodes[0].position.y + 280, {
+                zoom: 0.8,
+                duration: 800,
+            });
+        }
+    }, [rootNodePath, nodes.length, nodes, setCenter]);
 
     const activeNode = nodes.find((n) => n.id === activeId);
 
@@ -222,7 +353,7 @@ function CayGiaPha({ tree }) {
     return (
         <>
             {/* Thanh tìm kiếm */}
-            <div
+            {/* <div
                 style={{
                     position: 'absolute',
                     top: 10,
@@ -239,19 +370,25 @@ function CayGiaPha({ tree }) {
                     enterButton="Tìm"
                     allowClear
                 />
-            </div>
+            </div> */}
 
             {/* Cây gia phả */}
             <ReactFlow
                 nodes={nodesWithSelection}
                 edges={edges}
                 nodeTypes={nodeTypes}
-                fitView
                 style={{
                     background: '#fafafa',
-                    cursor: 'default',
+                    cursor: 'auto',
+                    width: '100vw',
+                    height: '100vh',
+                    overflow: 'hidden',
                 }}
-                onNodeClick={(_, node) => focusNode(node.id)}
+                onNodeClick={(_, node) => {
+                    if (onNodeClick && node.treePath) {
+                        onNodeClick(node.treePath);
+                    }
+                }}
                 panOnDrag={true}
                 zoomOnScroll={true}
                 zoomOnPinch={true}
@@ -354,11 +491,32 @@ function CayGiaPha({ tree }) {
 }
 
 // --- Component xuất ---
-export default function GiaPha() {
+export default function GiaPha(props) {
+    // Support rootNodePath and maxGenerations props for limited view
     return (
-        <div style={{ width: '100vw', height: '100vh' }}>
+        <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+            <button
+                onClick={() => (window.location.href = '/')}
+                style={{
+                    position: 'fixed',
+                    top: 16,
+                    left: 24,
+                    zIndex: 3000,
+                    background: '#ff4d4f',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: 6,
+                    padding: '8px 18px',
+                    fontWeight: 600,
+                    fontSize: '1rem',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                    cursor: 'pointer',
+                }}
+            >
+                Quay về Menu
+            </button>
             <ReactFlowProvider>
-                <CayGiaPha tree={treeData} />
+                <CayGiaPha tree={treeData} {...props} />
             </ReactFlowProvider>
         </div>
     );
