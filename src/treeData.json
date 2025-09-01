@@ -1,0 +1,517 @@
+[
+    {
+        "name": "Thủy tổ Trần Thái Lộc",
+        "description": "",
+        "image": "/logo192.png",
+        "children": [
+            {
+                "name": "Thương Cao Tổ",
+                "description": "Không có tên",
+                "image": "/logo192.png",
+                "children": [
+                    {
+                        "name": "Cao Tổ Phái Thứ - Trần Văn Cậy",
+                        "description": "",
+                        "image": "/logo192.png",
+                        "children": [
+                            {
+                                "name": "Tằng Tổ Phái Trưởng - Trần Chung",
+                                "description": "",
+                                "image": "/logo192.png"
+                            },
+                            {
+                                "name": "Tằng Tổ Phái Thứ - Trần Văn Hiên",
+                                "description": "(Huyên)",
+                                "image": "/logo192.png",
+                                "children": [
+                                    {
+                                        "name": "Trần Thị Xuân",
+                                        "description": "",
+                                        "image": "/logo192.png",
+                                        "children": [
+                                            {
+                                                "name": "Lê Văn Nghệ",
+                                                "description": "",
+                                                "image": "/logo192.png",
+                                                "children": [
+                                                    {
+                                                        "name": "Lê Văn Lược",
+                                                        "description": "",
+                                                        "image": "/logo192.png"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "Trần Văn Nghĩa",
+                                        "description": "(Huyên)",
+                                        "image": "/logo192.png",
+                                        "children": [
+                                            {
+                                                "name": "Trần Thị Sau",
+                                                "description": "",
+                                                "image": "/logo192.png"
+                                            },
+                                            {
+                                                "name": "Trần Dĩ",
+                                                "description": "(Huyên)",
+                                                "image": "/logo192.png"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "Hiền Tổ - Trần Văn Út",
+                                        "description": "",
+                                        "image": "/logo192.png",
+                                        "children": [
+                                            {
+                                                "name": "Trần Văn Tựu",
+                                                "description": "",
+                                                "image": "/logo192.png",
+                                                "children": [
+                                                    {
+                                                        "name": "Trần Văn Lấm",
+                                                        "description": "",
+                                                        "image": "/logo192.png",
+                                                        "children": [
+                                                            {
+                                                                "name": "Ông Chu",
+                                                                "description": "",
+                                                                "image": "/logo192.png",
+                                                                "children": [
+                                                                    {
+                                                                        "name": "Bà Tòa",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Ông Bình",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Ông Hoà",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Bà Lầu",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Ông Bảy Lê",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Bà Chín Xuân",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Ông Mười Thám",
+                                                                        "description": "(Đang thờ họ Trần Phái Cao ở Vĩnh Xuân)",
+                                                                        "image": "/logo192.png"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "Ông Đổng",
+                                                                "description": "",
+                                                                "image": "/logo192.png"
+                                                            },
+                                                            {
+                                                                "name": "Ông Hoài",
+                                                                "description": "",
+                                                                "image": "/logo192.png"
+                                                            },
+                                                            {
+                                                                "name": "Ông Năm Lên",
+                                                                "description": "",
+                                                                "image": "/logo192.png"
+                                                            },
+                                                            {
+                                                                "name": "Ông Sáu Có",
+                                                                "description": "",
+                                                                "image": "/logo192.png"
+                                                            },
+                                                            {
+                                                                "name": "Ông Bảy Của",
+                                                                "description": "",
+                                                                "image": "/logo192.png"
+                                                            },
+                                                            {
+                                                                "name": "Ông Tám Chun",
+                                                                "description": "",
+                                                                "image": "/logo192.png"
+                                                            },
+                                                            {
+                                                                "name": "Bà Chín Rào",
+                                                                "description": "",
+                                                                "image": "/logo192.png"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "name": "Trần Văn Bầu",
+                                                        "description": "",
+                                                        "image": "/logo192.png",
+                                                        "children": [
+                                                            {
+                                                                "name": "Ông Bão",
+                                                                "description": "",
+                                                                "image": "/logo192.png",
+                                                                "children": [
+                                                                    {
+                                                                        "name": "Ông Nam ( 9 Út )",
+                                                                        "description": "Vĩnh Xuân",
+                                                                        "image": "/logo192.png",
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "Anh Nam",
+                                                                                "description": "",
+                                                                                "image": "/logo192.png"
+                                                                            },
+                                                                            {
+                                                                                "name": "Chị Nữ",
+                                                                                "description": "Thứ 4",
+                                                                                "image": "/logo192.png"
+                                                                            },
+                                                                            {
+                                                                                "name": "Anh Đồng",
+                                                                                "description": "Thứ 6",
+                                                                                "image": "/logo192.png"
+                                                                            },
+                                                                            {
+                                                                                "name": "Anh Bằng",
+                                                                                "description": "Thứ 7",
+                                                                                "image": "/logo192.png"
+                                                                            },
+                                                                            {
+                                                                                "name": "Anh Cứ",
+                                                                                "description": "Thứ 8",
+                                                                                "image": "/logo192.png"
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "Bà Nỗi",
+                                                                "description": "Chết",
+                                                                "image": "/logo192.png"
+                                                            },
+                                                            {
+                                                                "name": "Ông Thanh",
+                                                                "description": "",
+                                                                "image": "/logo192.png",
+                                                                "children": [
+                                                                    {
+                                                                        "name": "Hai Đạm",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Bà Xinh",
+                                                                        "description": "Không rõ",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Bác Bốn Tư",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Anh Năm Thương",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Bà Càn",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Bác Bảy Tổng",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Cô Tám Phúc",
+                                                                        "description": "Cư xá Thanh Đa",
+                                                                        "image": "/logo192.png"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "Ông Tài",
+                                                                "description": "",
+                                                                "image": "/logo192.png",
+                                                                "children": [
+                                                                    {
+                                                                        "name": "Bác Hai Chính",
+                                                                        "description": "Tên Con",
+                                                                        "image": "/logo192.png"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "Trần Văn Kế",
+                                                "description": "(Huyên)",
+                                                "image": "/logo192.png",
+                                                "children": [
+                                                    {
+                                                        "name": "Trần Văn Tất",
+                                                        "description": "Đội Tất",
+                                                        "image": "/logo192.png"
+                                                    },
+                                                    {
+                                                        "name": "Trần Thường",
+                                                        "description": "Cử nhân",
+                                                        "image": "/logo192.png",
+                                                        "children": [
+                                                            {
+                                                                "name": "Ông Bốn Đường",
+                                                                "description": "",
+                                                                "image": "/logo192.png",
+                                                                "children": [
+                                                                    {
+                                                                        "name": "Hai Khánh",
+                                                                        "description": "Tên con",
+                                                                        "image": "/logo192.png",
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "Hai Khánh",
+                                                                                "description": "",
+                                                                                "image": "/logo192.png"
+                                                                            },
+                                                                            {
+                                                                                "name": "Ba Hòa",
+                                                                                "description": "",
+                                                                                "image": "/logo192.png"
+                                                                            },
+                                                                            {
+                                                                                "name": "Bốn Thuận",
+                                                                                "description": "",
+                                                                                "image": "/logo192.png"
+                                                                            },
+                                                                            {
+                                                                                "name": "Năm Phổ",
+                                                                                "description": "",
+                                                                                "image": "/logo192.png"
+                                                                            },
+                                                                            {
+                                                                                "name": "Sáu Vinh",
+                                                                                "description": "",
+                                                                                "image": "/logo192.png"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    {
+                                                                        "name": "Sáu Vị",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Bảy Trí",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "Ông Năm Thưởng",
+                                                                "description": "",
+                                                                "image": "/logo192.png",
+                                                                "children": [
+                                                                    {
+                                                                        "name": "Bốn Hóa",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Năm Thiệp",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "Ông Sáu Chưởng",
+                                                                "description": "",
+                                                                "image": "/logo192.png",
+                                                                "children": [
+                                                                    {
+                                                                        "name": "Cô Ba Bé",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "Bà Bảy Hảo",
+                                                                "description": "",
+                                                                "image": "/logo192.png",
+                                                                "children": [
+                                                                    {
+                                                                        "name": "Cô Ba Liên",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Cô Bốn Lài",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Chú Năm Hoằng",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Chú Sáu Hoan",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    },
+                                                                    {
+                                                                        "name": "Chú Tám Hoãn",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "name": "Ông Tám Nhỏ",
+                                                                "description": "",
+                                                                "image": "/logo192.png",
+                                                                "children": [
+                                                                    {
+                                                                        "name": "Cô Linh",
+                                                                        "description": "",
+                                                                        "image": "/logo192.png",
+                                                                        "children": [
+                                                                            {
+                                                                                "name": "Đức",
+                                                                                "description": "",
+                                                                                "image": "/logo192.png"
+                                                                            },
+                                                                            {
+                                                                                "name": "Diệu",
+                                                                                "description": "",
+                                                                                "image": "/logo192.png"
+                                                                            },
+                                                                            {
+                                                                                "name": "Mai",
+                                                                                "description": "",
+                                                                                "image": "/logo192.png"
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "Trần Văn Hồi",
+                                                "description": "Tuyệt tự",
+                                                "image": "/logo192.png"
+                                            },
+                                            {
+                                                "name": "Trần Văn Luật",
+                                                "description": "",
+                                                "image": "/logo192.png",
+                                                "children": [
+                                                    {
+                                                        "name": "Trần Văn Chuyển",
+                                                        "description": "",
+                                                        "image": "/logo192.png"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "Trần Văn Bổn",
+                                                "description": "(Bản)",
+                                                "image": "/logo192.png",
+                                                "children": [
+                                                    {
+                                                        "name": "Trần Thị Luyến",
+                                                        "description": "",
+                                                        "image": "/logo192.png"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "Trần Thị Tạ",
+                                                "description": "",
+                                                "image": "/logo192.png",
+                                                "children": [
+                                                    {
+                                                        "name": "Thị Bôi",
+                                                        "description": "Không rõ họ",
+                                                        "image": "/logo192.png"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "name": "Trần Thị Tánh",
+                                                "description": "",
+                                                "image": "/logo192.png",
+                                                "children": [
+                                                    {
+                                                        "name": "Văn Khiêm",
+                                                        "description": "Không rõ họ",
+                                                        "image": "/logo192.png"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Cao Tổ Phái Trưởng",
+                        "description": "Không có tên",
+                        "image": "/logo192.png",
+                        "children": [
+                            {
+                                "name": "Trần Văn Siêu",
+                                "description": "",
+                                "image": "/logo192.png"
+                            },
+                            {
+                                "name": "Trần Văn Tài",
+                                "description": "(Huyên)",
+                                "image": "/logo192.png"
+                            },
+                            {
+                                "name": "Trần Văn Ngàn",
+                                "description": "",
+                                "image": "/logo192.png"
+                            },
+                            {
+                                "name": "Trần Kim",
+                                "description": "(Huyên)",
+                                "image": "/logo192.png"
+                            },
+                            {
+                                "name": "Trần Vừa",
+                                "description": "",
+                                "image": "/logo192.png"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
