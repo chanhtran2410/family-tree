@@ -7,28 +7,44 @@ import ReactFlow, {
     ReactFlowProvider,
     useReactFlow,
 } from 'reactflow';
-import { Card, Input } from 'antd';
+import { Button, Card, Flex, Input } from 'antd';
 import 'reactflow/dist/style.css';
 import 'antd/dist/reset.css';
 import treeData from './treeData.json';
 
 const { Search } = Input;
 
+// 🔹 Bảng màu cho từng đời
+const levelColors = [
+    '#ffd666', // đời 1 (vàng nhạt)
+    '#ffa39e', // đời 2 (hồng nhạt)
+    '#95de64', // đời 3 (xanh lá)
+    '#69c0ff', // đời 4 (xanh dương)
+    '#d3adf7', // đời 5 (tím nhạt)
+    '#ffec3d', // đời 6 (vàng sáng)
+];
+
 // --- Node Tùy Chỉnh ---
 function CustomNode({ data, selected }) {
+    const bgColor = levelColors[data.level % levelColors.length];
+
     return (
         <div
             style={{
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                padding: '6px',
-                borderRadius: '12px',
-                width: 240,
-                background: selected ? '#ff4d4f' : '#fff5f0',
+                justifyContent: 'center',
+                padding: '10px',
+                borderRadius: '8px',
+                width: 150,
+                height: 'fit-content',
+                background: bgColor,
+                minHeight: '120px',
                 color: '#333',
                 boxShadow: selected
-                    ? '0 0 12px rgba(255,77,79,0.9), 0 0 0 2px #ff4d4f'
-                    : '0 2px 6px rgba(0,0,0,0.25)',
+                    ? '0 0 10px rgba(0,0,0,0.4), 0 0 0 2px #ff4d4f'
+                    : '0 1px 4px rgba(0,0,0,0.2)',
                 transition: 'all 0.3s ease',
             }}
         >
@@ -36,22 +52,21 @@ function CustomNode({ data, selected }) {
                 src={data.image}
                 alt={data.label}
                 style={{
-                    width: 60,
-                    height: 60,
+                    width: 48,
+                    height: 48,
                     borderRadius: '50%',
                     objectFit: 'cover',
-                    marginRight: 12,
-                    border: selected ? '2px solid #ff4d4f' : '2px solid #ddd',
+                    border: '1px solid #333',
                 }}
             />
             <Card
                 style={{ flex: 1, border: 'none', background: 'transparent' }}
-                bodyStyle={{ padding: 4 }}
+                bodyStyle={{ padding: 2 }}
             >
-                <div style={{ fontWeight: 'bold', fontSize: 15 }}>
+                <div style={{ fontWeight: 'bold', fontSize: 14 }}>
                     {data.label}
                 </div>
-                <div style={{ color: '#666', fontSize: 12 }}>
+                <div style={{ color: '#555', fontSize: 11 }}>
                     {data.description}
                 </div>
             </Card>
@@ -61,25 +76,34 @@ function CustomNode({ data, selected }) {
         </div>
     );
 }
-
 // --- Thuật toán sắp xếp cây ---
 let globalIndex = 0;
+const X_SPACING = 160; // 🔹 khoảng cách ngang
+const Y_SPACING = 260; // 🔹 khoảng cách dọc (tùy chỉnh tại đây)
+
 function layoutTree(node, level = 0, parentId = null, nodes = [], edges = []) {
     const id = `${parentId ? parentId + '-' : ''}${globalIndex++}`;
     const nodeData = {
         id,
         type: 'custom',
-        position: { x: 0, y: level * 200 },
+        position: { x: 0, y: level * Y_SPACING }, // 🔹 dùng Y_SPACING thay vì số cứng
         data: {
             label: node.name,
             description: node.description,
             image: node.image,
+            level,
         },
     };
     nodes.push(nodeData);
 
     if (parentId !== null) {
-        edges.push({ id: `e${parentId}-${id}`, source: parentId, target: id });
+        edges.push({
+            id: `e${parentId}-${id}`,
+            source: parentId,
+            target: id,
+            type: 'step',
+            style: { stroke: '#555', strokeWidth: 2 },
+        });
     }
 
     if (node.children && node.children.length > 0) {
@@ -92,7 +116,7 @@ function layoutTree(node, level = 0, parentId = null, nodes = [], edges = []) {
         const maxX = Math.max(...childPositions.map((c) => c.x));
         nodeData.position.x = (minX + maxX) / 2;
     } else {
-        nodeData.position.x = globalIndex * 250;
+        nodeData.position.x = globalIndex * X_SPACING; // 🔹 dùng X_SPACING thay vì số cứng
     }
 
     return nodeData.position;
@@ -130,7 +154,7 @@ function CayGiaPha({ tree }) {
         if (!node) return;
         setActiveId(id);
         setCenter(node.position.x, node.position.y, {
-            zoom: 0.8,
+            zoom: 0.9,
             duration: 800,
         });
     };
@@ -171,7 +195,7 @@ function CayGiaPha({ tree }) {
               .map((e) => nodes.find((n) => n.id === e.target))
         : [];
 
-    // Panel nổi (responsive)
+    // Panel nổi
     const floatingPanelStyle =
         width < 768
             ? {
@@ -180,19 +204,19 @@ function CayGiaPha({ tree }) {
                   left: '50%',
                   transform: 'translate(-50%, -50%)',
                   width: '90%',
-                  maxWidth: 320,
+                  maxWidth: 300,
                   zIndex: 20,
                   boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                  borderRadius: 12,
+                  borderRadius: 8,
               }
             : {
                   position: 'absolute',
-                  top: 80,
+                  top: 70,
                   right: 20,
-                  width: 320,
+                  width: 300,
                   zIndex: 20,
                   boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                  borderRadius: 12,
+                  borderRadius: 8,
               };
 
     return (
@@ -224,7 +248,7 @@ function CayGiaPha({ tree }) {
                 nodeTypes={nodeTypes}
                 fitView
                 style={{
-                    background: '#f0efed',
+                    background: '#fafafa',
                     cursor: 'default',
                 }}
                 onNodeClick={(_, node) => focusNode(node.id)}
@@ -234,16 +258,22 @@ function CayGiaPha({ tree }) {
                 zoomOnDoubleClick={false}
             >
                 <Controls />
-                <Background color="#fff" gap={16} />
+                <Background color="#eee" gap={6} />
             </ReactFlow>
 
             {/* Panel nổi */}
             {activeNode && (
                 <Card
-                    title={activeNode.data.label}
+                    title={
+                        <Flex vertical>
+                            <span>{activeNode.data.label}</span>
+                            <span>{`(${activeNode.data.description})`}</span>
+                        </Flex>
+                    }
                     style={floatingPanelStyle}
                     extra={
-                        <button
+                        <Button
+                            type="link"
                             onClick={() => setActiveId(null)}
                             style={{
                                 color: '#ff4d4f',
@@ -253,12 +283,12 @@ function CayGiaPha({ tree }) {
                                 fontSize: 'inherit',
                             }}
                         >
-                            Đóng
-                        </button>
+                            X
+                        </Button>
                     }
                 >
                     {parentNode && (
-                        <div style={{ marginBottom: 16 }}>
+                        <div style={{ marginBottom: 12 }}>
                             <strong>Cha/Mẹ:</strong>
                             <div
                                 style={{
@@ -273,10 +303,10 @@ function CayGiaPha({ tree }) {
                                     src={parentNode.data.image}
                                     alt={parentNode.data.label}
                                     style={{
-                                        width: 36,
-                                        height: 36,
+                                        width: 32,
+                                        height: 32,
                                         borderRadius: '50%',
-                                        marginRight: 8,
+                                        marginRight: 6,
                                         border: '1px solid #ccc',
                                     }}
                                 />
@@ -304,10 +334,10 @@ function CayGiaPha({ tree }) {
                                             src={c.data.image}
                                             alt={c.data.label}
                                             style={{
-                                                width: 32,
-                                                height: 32,
+                                                width: 28,
+                                                height: 28,
                                                 borderRadius: '50%',
-                                                marginRight: 8,
+                                                marginRight: 6,
                                                 border: '1px solid #ccc',
                                             }}
                                         />
