@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FamilyTree from './FamilyTree';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { Flex, Input } from 'antd';
 import treeData from './treeData.json';
 
@@ -8,7 +8,7 @@ const { Search } = Input;
 
 function LimitedFamilyTreePage() {
     const [rootNodePath, setRootNodePath] = useState([]);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const handleBack = () => {
         if (rootNodePath.length > 0) {
