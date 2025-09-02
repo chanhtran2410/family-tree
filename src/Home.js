@@ -14,9 +14,9 @@ function Home() {
                 {/* 🔹 Banner div dùng background */}
                 <div className="banner-div">
                     <span className="banner-content">
-                        GIA PHẢ
+                        TRẦN THỊ
                         <br />
-                        TRẦN TỘC
+                        THẾ PHỔ
                     </span>
                 </div>
 

@@ -302,7 +302,7 @@ function CayGiaPha({
     useEffect(() => {
         if (nodes.length > 0) {
             // setActiveId(nodes[0].id);
-            setCenter(nodes[0].position.x + 70, nodes[0].position.y + 350, {
+            setCenter(nodes[0].position.x + 90, nodes[0].position.y + 320, {
                 zoom: 0.8,
                 duration: 800,
             });

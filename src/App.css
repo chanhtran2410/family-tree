@@ -34,13 +34,11 @@
   color: #fff;
   border: none;
   border-radius: 6px;
-  padding: 8px 20px;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 14px;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  margin-bottom: 12px;
   transition: background 0.2s;
+  width: 150px;
 }
 
 .back-btn:disabled {
