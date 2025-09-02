@@ -3,6 +3,10 @@
   /* overflow: hidden; */
 }
 
+body {
+  overflow: hidden;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -39,6 +43,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: background 0.2s;
   width: 150px;
+  height: 40px;
 }
 
 .back-btn:disabled {

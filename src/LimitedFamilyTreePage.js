@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FamilyTree from './FamilyTree';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Flex, Input } from 'antd';
 import treeData from './treeData.json';
 
@@ -8,7 +8,7 @@ const { Search } = Input;
 
 function LimitedFamilyTreePage() {
     const [rootNodePath, setRootNodePath] = useState([]);
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleBack = () => {
         if (rootNodePath.length > 0) {
@@ -26,7 +26,14 @@ function LimitedFamilyTreePage() {
         return node;
     }
 
-    // Recursively find path to node whose name includes keyword
+    // Only set as root if node has children
+    const handleNodeClick = (path) => {
+        const node = getNodeByPath(treeData, path);
+        if (node && node.children && node.children.length > 0) {
+            setRootNodePath(path);
+        }
+    };
+
     function findPath(node, keyword, path = []) {
         if (!node) return null;
         if (node.name.toLowerCase().includes(keyword.toLowerCase())) {
@@ -44,15 +51,6 @@ function LimitedFamilyTreePage() {
         return null;
     }
 
-    // Only set as root if node has children
-    const handleNodeClick = (path) => {
-        const node = getNodeByPath(treeData, path);
-        if (node && node.children && node.children.length > 0) {
-            setRootNodePath(path);
-        }
-    };
-
-    // 🔹 Handle search
     const handleSearch = (value) => {
         if (!value) {
             setRootNodePath([]); // reset to root
@@ -68,37 +66,37 @@ function LimitedFamilyTreePage() {
 
     return (
         <div>
-            <div
+            {/* 🔎 Search Bar */}
+            <Flex
+                gap={8}
+                justify="space-between"
                 style={{
-                    position: 'absolute',
-                    zIndex: 1000,
-                    width: '100%',
-                    height: '100%',
-                    padding: 16,
+                    padding: '16px',
+                    background:
+                        'linear-gradient(to right, #fff3b0, #ffea94ff, #fff3b0)',
                 }}
             >
-                <Flex gap={32} justify="space-between">
-                    <Search
-                        placeholder="Tìm tên..."
-                        onSearch={handleSearch}
-                        enterButton="Tìm kiếm"
-                        allowClear
-                    />
-                    <button
-                        className="back-btn"
-                        onClick={handleBack}
-                        disabled={rootNodePath.length === 0}
-                        // style={{
-                        //     position: 'absolute',
-                        //     top: 56,
-                        //     right: 24,
-                        //     zIndex: 1000,
-                        // }}
-                    >
-                        Trở về đời trước
-                    </button>
-                </Flex>
-            </div>
+                <Search
+                    placeholder="Tìm thành viên..."
+                    allowClear
+                    enterButton="Tìm"
+                    size="large"
+                    onSearch={handleSearch}
+                />
+                <button
+                    className="back-btn"
+                    onClick={handleBack}
+                    disabled={rootNodePath.length === 0}
+                    // style={{
+                    //     position: 'absolute',
+                    //     top: 56,
+                    //     right: 24,
+                    //     zIndex: 1000,
+                    // }}
+                >
+                    Trở về đời trước
+                </button>
+            </Flex>
 
             <FamilyTree
                 rootNodePath={rootNodePath}
