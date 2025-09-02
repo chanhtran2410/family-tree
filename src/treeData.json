@@ -20,7 +20,7 @@
                                 "image": "/logo192.png"
                             },
                             {
-                                "name": "Tằng Tổ Phái Thứ - Trần Văn Hiên",
+                                "name": "Tằng Tổ Phái Thứ - Trần Văn Hiến",
                                 "description": "Huyên",
                                 "image": "/logo192.png",
                                 "children": [
@@ -31,12 +31,12 @@
                                         "children": [
                                             {
                                                 "name": "Lê Văn Nghệ",
-                                                "description": "",
+                                                "description": "Nghề",
                                                 "image": "/logo192.png",
                                                 "children": [
                                                     {
                                                         "name": "Lê Văn Lược",
-                                                        "description": "",
+                                                        "description": "Xuất đội - Đội Lược",
                                                         "image": "/logo192.png"
                                                     }
                                                 ]
@@ -49,20 +49,41 @@
                                         "image": "/logo192.png",
                                         "children": [
                                             {
-                                                "name": "Trần Thị Sau",
+                                                "name": "Trần Văn Quế",
                                                 "description": "",
-                                                "image": "/logo192.png"
-                                            },
-                                            {
-                                                "name": "Trần Dĩ",
-                                                "description": "",
-                                                "image": "/logo192.png"
+                                                "image": "/logo192.png",
+                                                "children": [
+                                                    {
+                                                        "name": "Trần Thị Sau",
+                                                        "description": "",
+                                                        "image": "/logo192.png",
+                                                        "children": [
+                                                            {
+                                                                "name": "Trần Võng",
+                                                                "description": "",
+                                                                "image": "/logo192.png"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "name": "Trần Dĩ",
+                                                        "description": "",
+                                                        "image": "/logo192.png",
+                                                        "children": [
+                                                            {
+                                                                "name": "Trần Văn Liên  ",
+                                                                "description": "",
+                                                                "image": "/logo192.png"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
                                             }
                                         ]
                                     },
                                     {
                                         "name": "Hiền Tổ - Trần Văn Út",
-                                        "description": "(Tức ông Nội Trần Thường)",
+                                        "description": "Tức ông Nội Trần Thường",
                                         "image": "/logo192.png",
                                         "children": [
                                             {
@@ -72,7 +93,7 @@
                                                 "children": [
                                                     {
                                                         "name": "Trần Văn Lấm",
-                                                        "description": "(Tức ông Nội ông Mười Thám)",
+                                                        "description": "Tức ông Nội ông Mười Thám",
                                                         "image": "/logo192.png",
                                                         "children": [
                                                             {
@@ -112,7 +133,7 @@
                                                                     },
                                                                     {
                                                                         "name": "Ông Mười Thám",
-                                                                        "description": "(Đang thờ họ Trần Phái Cao ở Vĩnh Xuân)",
+                                                                        "description": "Đang thờ họ Trần Phái Cao ở Vĩnh Xuân",
                                                                         "image": "/logo192.png"
                                                                     }
                                                                 ]
@@ -165,7 +186,7 @@
                                                                 "image": "/logo192.png",
                                                                 "children": [
                                                                     {
-                                                                        "name": "Ông Nam ( 9 Út )",
+                                                                        "name": "Ông Nam  9 Út ",
                                                                         "description": "Vĩnh Xuân",
                                                                         "image": "/logo192.png",
                                                                         "children": [
@@ -263,7 +284,7 @@
                                             },
                                             {
                                                 "name": "Trần Văn Kế",
-                                                "description": "(Tức Ba Trần Thường)",
+                                                "description": "Lương",
                                                 "image": "/logo192.png",
                                                 "children": [
                                                     {
@@ -387,7 +408,7 @@
                                                                 ]
                                                             },
                                                             {
-                                                                "name": "Ông Tám Nhỏ",
+                                                                "name": "Bà Tám Nhỏ",
                                                                 "description": "",
                                                                 "image": "/logo192.png",
                                                                 "children": [
@@ -431,19 +452,19 @@
                                                 "children": [
                                                     {
                                                         "name": "Trần Văn Chuyển",
-                                                        "description": "",
+                                                        "description": "Không thấy ghi sinh con",
                                                         "image": "/logo192.png"
                                                     }
                                                 ]
                                             },
                                             {
                                                 "name": "Trần Văn Bổn",
-                                                "description": "(Bản)",
+                                                "description": "Bản",
                                                 "image": "/logo192.png",
                                                 "children": [
                                                     {
                                                         "name": "Trần Thị Luyến",
-                                                        "description": "",
+                                                        "description": "Có chồng làm Bang Biện tên là Nguyễn Thống",
                                                         "image": "/logo192.png"
                                                     }
                                                 ]

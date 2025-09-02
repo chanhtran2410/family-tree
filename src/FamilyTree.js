@@ -7,7 +7,7 @@ import ReactFlow, {
     ReactFlowProvider,
     useReactFlow,
 } from 'reactflow';
-import { Button, Card, Flex } from 'antd';
+import { Button, Card } from 'antd';
 import 'reactflow/dist/style.css';
 import 'antd/dist/reset.css';
 import treeData from './treeData.json';
@@ -16,12 +16,10 @@ import treeData from './treeData.json';
 
 // 🔹 Bảng màu cho từng đời
 const levelColors = [
-    '#ffd666', // đời 1 (vàng nhạt)
     '#ffa39e', // đời 2 (hồng nhạt)
     '#95de64', // đời 3 (xanh lá)
     '#69c0ff', // đời 4 (xanh dương)
     '#d3adf7', // đời 5 (tím nhạt)
-    '#ffec3d', // đời 6 (vàng sáng)
 ];
 
 // --- Node Tùy Chỉnh ---
@@ -62,11 +60,25 @@ function CustomNode({ data, selected, setActiveId, id }) {
                 style={{ flex: 1, border: 'none', background: 'transparent' }}
                 bodyStyle={{ padding: 2 }}
             >
-                <div style={{ fontWeight: 'bold', fontSize: 14 }}>
-                    {data.label}
+                <div
+                    style={{
+                        fontWeight: 'bold',
+                        fontSize: 14,
+                        textAlign: 'center',
+                    }}
+                >
+                    {data.label.split('-')[0]}
+                    <br />
+                    {data.label.split('-')[1]}
                 </div>
-                <div style={{ color: '#555', fontSize: 11 }}>
-                    {data.description}
+                <div
+                    style={{
+                        color: 'black',
+                        fontSize: 11,
+                        textAlign: 'center',
+                    }}
+                >
+                    {data.description && <div>( {data.description} )</div>}
                 </div>
             </Card>
             <Button
@@ -148,17 +160,6 @@ const Y_SPACING = 300; // 🔹 khoảng cách dọc (tùy chỉnh tại đây)
 //     return nodeData.position;
 // }
 
-// --- Hook lấy chiều rộng màn hình ---
-function useWindowWidth() {
-    const [width, setWidth] = useState(window.innerWidth);
-    useEffect(() => {
-        const handleResize = () => setWidth(window.innerWidth);
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-    return width;
-}
-
 // --- Component chính ---
 function CayGiaPha({
     tree,
@@ -172,7 +173,6 @@ function CayGiaPha({
     const [activeId, setActiveId] = useState(null);
 
     const { setCenter, fitView } = useReactFlow();
-    const width = useWindowWidth();
 
     // Traverse tree by rootNodePath
     let rootNode = tree[0];
@@ -259,16 +259,16 @@ function CayGiaPha({
     }, [rootNodePath, rootNode, maxGenerations]);
 
     // Zoom vào node
-    const focusNode = (id) => {
-        const node = nodes.find((n) => n.id === id);
-        if (!node) return;
-        setActiveId(id);
-        // Move node higher by subtracting 120 from y position
-        setCenter(node.position.x, node.position.y + 350, {
-            zoom: 0.8,
-            duration: 800,
-        });
-    };
+    // const focusNode = (id) => {
+    //     const node = nodes.find((n) => n.id === id);
+    //     if (!node) return;
+    //     setActiveId(id);
+    //     // Move node higher by subtracting 120 from y position
+    //     setCenter(node.position.x, node.position.y + 350, {
+    //         zoom: 0.8,
+    //         duration: 800,
+    //     });
+    // };
 
     // const handleSearch = (value) => {
     //     if (!value) {
@@ -309,45 +309,45 @@ function CayGiaPha({
         }
     }, [rootNodePath, nodes.length, nodes, setCenter]);
 
-    const activeNode = nodes.find((n) => n.id === activeId);
+    // const activeNode = nodes.find((n) => n.id === activeId);
 
     // Tìm cha + con
-    const parent = activeNode
-        ? edges.find((e) => e.target === activeNode.id)
-        : null;
-    const parentNode = parent
-        ? nodes.find((n) => n.id === parent.source)
-        : null;
+    // const parent = activeNode
+    //     ? edges.find((e) => e.target === activeNode.id)
+    //     : null;
+    // const parentNode = parent
+    //     ? nodes.find((n) => n.id === parent.source)
+    //     : null;
 
-    const children = activeNode
-        ? edges
-              .filter((e) => e.source === activeNode.id)
-              .map((e) => nodes.find((n) => n.id === e.target))
-        : [];
+    // const children = activeNode
+    //     ? edges
+    //           .filter((e) => e.source === activeNode.id)
+    //           .map((e) => nodes.find((n) => n.id === e.target))
+    //     : [];
 
     // Panel nổi
-    const floatingPanelStyle =
-        width < 768
-            ? {
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  width: '90%',
-                  maxWidth: 300,
-                  zIndex: 20,
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                  borderRadius: 8,
-              }
-            : {
-                  position: 'absolute',
-                  top: 70,
-                  right: 20,
-                  width: 300,
-                  zIndex: 20,
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-                  borderRadius: 8,
-              };
+    // const floatingPanelStyle =
+    //     width < 768
+    //         ? {
+    //               position: 'absolute',
+    //               top: '50%',
+    //               left: '50%',
+    //               transform: 'translate(-50%, -50%)',
+    //               width: '90%',
+    //               maxWidth: 300,
+    //               zIndex: 20,
+    //               boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+    //               borderRadius: 8,
+    //           }
+    //         : {
+    //               position: 'absolute',
+    //               top: 70,
+    //               right: 20,
+    //               width: 300,
+    //               zIndex: 20,
+    //               boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+    //               borderRadius: 8,
+    //           };
 
     return (
         <>
@@ -377,7 +377,8 @@ function CayGiaPha({
                 edges={edges}
                 nodeTypes={nodeTypes}
                 style={{
-                    background: '#fafafa',
+                    background:
+                        'linear-gradient(to right, #fff3b0, #ffea94ff, #fff3b0)',
                     cursor: 'auto',
                     width: '100vw',
                     height: '100vh',
@@ -398,7 +399,7 @@ function CayGiaPha({
             </ReactFlow>
 
             {/* Panel nổi */}
-            {activeNode && (
+            {/* {activeNode && (
                 <Card
                     title={
                         <Flex vertical>
@@ -484,7 +485,7 @@ function CayGiaPha({
                         </div>
                     )}
                 </Card>
-            )}
+            )} */}
         </>
     );
 }

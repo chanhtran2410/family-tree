@@ -1,18 +1,31 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './App.css';
+import './Home.css';
+import { Flex } from 'antd';
+import dragon_left from './assets/banner-header-left-default.png';
+import dragon_right from './assets/banner-header-right-default.png';
 
 function Home() {
     return (
-        <div className="home-menu">
-            <ul>
-                <li>
-                    <Link to="/family-4gen">Gia phả họ Trần</Link>
-                </li>
-                {/* <li>
-                    <Link to="/family">Xem toàn bộ cây gia đình</Link>
-                </li> */}
-            </ul>
+        <div className="home-container">
+            <Flex>
+                <img src={dragon_left} alt="Logo" className="dragon" />
+
+                {/* 🔹 Banner div dùng background */}
+                <div className="banner-div">
+                    <span className="banner-content">
+                        GIA PHẢ
+                        <br />
+                        TRẦN TỘC
+                    </span>
+                </div>
+
+                <img src={dragon_right} alt="Logo" className="dragon" />
+            </Flex>
+
+            <Link className="home-menu" to="/family-4gen">
+                Xem gia phả
+            </Link>
         </div>
     );
 }

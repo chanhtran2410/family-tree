@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import FamilyTree from './FamilyTree';
+import { useNavigate } from 'react-router-dom';
 
 function LimitedFamilyTreePage() {
     // rootNodePath is an array of indices to traverse treeData
     const [rootNodePath, setRootNodePath] = useState([]);
+    const navigate = useNavigate();
 
     const handleBack = () => {
         if (rootNodePath.length > 0) {
@@ -33,8 +35,9 @@ function LimitedFamilyTreePage() {
         <div>
             <button
                 className="back-btn"
-                onClick={handleBack}
-                disabled={rootNodePath.length === 0}
+                onClick={() => {
+                    navigate('/');
+                }}
                 style={{
                     position: 'absolute',
                     top: 16,
@@ -42,7 +45,20 @@ function LimitedFamilyTreePage() {
                     zIndex: 1000,
                 }}
             >
-                Trở về trang trước
+                Quay về trang chủ
+            </button>
+            <button
+                className="back-btn"
+                onClick={handleBack}
+                disabled={rootNodePath.length === 0}
+                style={{
+                    position: 'absolute',
+                    top: 56,
+                    right: 24,
+                    zIndex: 1000,
+                }}
+            >
+                Trở về đời trước
             </button>
             <FamilyTree
                 rootNodePath={rootNodePath}
