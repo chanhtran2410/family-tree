@@ -1,12 +1,12 @@
 [
     {
-        "name": "Thủy tổ Trần Thái Lộc",
+        "name": "Thủy tổ - Trần Thái Lộc",
         "description": "",
         "image": "/logo192.png",
         "children": [
             {
                 "name": "Thương Cao Tổ",
-                "description": "Không có tên",
+                "description": "Không rõ tên",
                 "image": "/logo192.png",
                 "children": [
                     {
@@ -427,6 +427,11 @@
                                                 "image": "/logo192.png",
                                                 "children": [
                                                     {
+                                                        "name": "Trần Thị Kế",
+                                                        "description": "",
+                                                        "image": "/logo192.png"
+                                                    },
+                                                    {
                                                         "name": "Trần Văn Tất",
                                                         "description": "Đội Tất",
                                                         "image": "/logo192.png",
@@ -513,7 +518,7 @@
                                                                 ]
                                                             },
                                                             {
-                                                                "name": "Bà Điều",
+                                                                "name": "Trần Thị Điều",
                                                                 "description": "Tên con",
                                                                 "image": "/logo192.png",
                                                                 "children": [
@@ -747,6 +752,16 @@
                                                                 ]
                                                             }
                                                         ]
+                                                    },
+                                                    {
+                                                        "name": "Trần Thị Lưỡng",
+                                                        "description": "",
+                                                        "image": "/logo192.png"
+                                                    },
+                                                    {
+                                                        "name": "Trần Thị Lự",
+                                                        "description": "",
+                                                        "image": "/logo192.png"
                                                     }
                                                 ]
                                             },
@@ -811,7 +826,7 @@
                     },
                     {
                         "name": "Cao Tổ Phái Trưởng",
-                        "description": "Không có tên",
+                        "description": "Không rõ tên",
                         "image": "/logo192.png",
                         "children": [
                             {

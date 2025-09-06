@@ -23,9 +23,15 @@ function Home() {
                 <img src={dragon_right} alt="Logo" className="dragon" />
             </Flex>
 
-            <Link className="home-menu" to="/family-4gen">
-                Xem gia phả
-            </Link>
+            <Flex vertical gap={16}>
+                <Link className="home-menu" to="/introduction">
+                    Lời mở đầu
+                </Link>
+
+                <Link className="home-menu" to="/family-4gen">
+                    Xem gia phả
+                </Link>
+            </Flex>
         </div>
     );
 }
