@@ -1,0 +1,142 @@
+.gallery-container {
+    min-height: 100vh;
+    background: linear-gradient(to right, #fff3b0, #ffe066, #fff3b0);
+    padding: 20px;
+}
+
+.back-btn {
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #daa520, #b8860b);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+/* Gallery Grid Layout */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-item {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Ant Design Image component styling */
+.gallery-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    border-radius: 0;
+}
+
+.gallery-item:hover .gallery-image {
+    transform: scale(1.05);
+}
+
+.image-title {
+    padding: 15px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    text-align: center;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+}
+
+.preview-mask {
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+}
+
+/* Override Ant Design Image styles */
+.gallery-item .ant-image {
+    display: block;
+    width: 100%;
+}
+
+.gallery-item .ant-image-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .ant-image-img {
+    transform: scale(1.05);
+}
+
+.gallery-item .ant-image-mask {
+    border-radius: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .gallery-container {
+        padding: 15px;
+    }
+
+    .gallery-image,
+    .gallery-item .ant-image-img {
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .gallery-container {
+        padding: 10px;
+    }
+
+    .gallery-image,
+    .gallery-item .ant-image-img {
+        height: 120px;
+    }
+
+    .image-title {
+        padding: 10px;
+        font-size: 12px;
+    }
+}

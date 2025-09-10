@@ -4,6 +4,7 @@ import Home from './Home';
 import FamilyTree from './FamilyTree';
 import LimitedFamilyTreePage from './LimitedFamilyTreePage';
 import Introduction from './Introduction';
+import Gallery from './Gallery';
 import './App.css';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
                     path="/family-4gen"
                     element={<LimitedFamilyTreePage />}
                 />
+                <Route path="/gallery" element={<Gallery />} />
             </Routes>
         </Router>
     );

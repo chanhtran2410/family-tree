@@ -31,6 +31,10 @@ function Home() {
                 <Link className="home-menu" to="/family-4gen">
                     Xem gia phả
                 </Link>
+
+                <Link className="home-menu" to="/gallery">
+                    Bút tích
+                </Link>
             </Flex>
         </div>
     );
