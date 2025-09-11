@@ -71,7 +71,7 @@ function LimitedFamilyTreePage() {
                 gap={8}
                 justify="space-between"
                 style={{
-                    padding: '16px',
+                    padding: '16px 16px 0 16px',
                     background:
                         'linear-gradient(to right, #fff3b0, #ffea94ff, #fff3b0)',
                 }}
@@ -94,7 +94,7 @@ function LimitedFamilyTreePage() {
                     //     zIndex: 1000,
                     // }}
                 >
-                    Trở về đời trước
+                    Đời trước
                 </button>
             </Flex>
 

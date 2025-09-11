@@ -17,6 +17,7 @@ html, body {
     /* Space for fixed back button */
     box-sizing: border-box;
     overflow-y: auto;
+    font-size: 14px;
 }
 
 .introduction-header {
@@ -67,20 +68,14 @@ html, body {
     font-family: 'Noto Serif SC', serif;
 }
 
-/* .introduction-content p:first-child::first-letter {
-    font-size: 4em;
-    float: left;
-    line-height: 1;
-    margin-right: 8px;
-    margin-top: 4px;
-    color: #8b4513;
-    font-weight: bold;
-} */
+.introduction-image img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 16px;
+    border-radius: 8px;
+}
 
 .back-button {
-    position: fixed;
-    top: 20px;
-    left: 20px;
     background: linear-gradient(135deg, #daa520, #b8860b);
     color: white;
     border: none;
@@ -96,7 +91,7 @@ html, body {
     box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
     transition: all 0.3s ease;
     z-index: 1000;
-    font-family: 'Noto Serif SC', serif;
+    width: fit-content;
 }
 
 .back-button:hover {

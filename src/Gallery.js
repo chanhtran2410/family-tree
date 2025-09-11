@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Spin } from 'antd';
 import { LeftOutlined, RightOutlined, CloseOutlined } from '@ant-design/icons';
 import './Gallery.css';
@@ -19,7 +18,6 @@ const getImagePaths = () => {
 };
 
 function Gallery() {
-    const navigate = useNavigate();
     const [visibleItems, setVisibleItems] = useState(12);
     const [loading, setLoading] = useState(false);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
@@ -61,10 +59,6 @@ function Gallery() {
         },
         [loading, loadMoreItems, visibleItems, allImages.length]
     );
-
-    const goBack = () => {
-        navigate('/');
-    };
 
     // Image viewer functions
     const openViewer = (index) => {
@@ -150,9 +144,10 @@ function Gallery() {
 
     return (
         <div className="gallery-container">
-            <button className="back-btn" onClick={goBack}>
-                Quay lại
-            </button>
+            <div className="introduction-header">
+                <h1 className="introduction-title">Bút Tích</h1>
+                <p className="introduction-subtitle">Trần Thị Thế Phổ</p>
+            </div>
 
             <div className="gallery-grid">
                 {visibleImages.map((image, index) => (

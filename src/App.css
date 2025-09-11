@@ -44,12 +44,29 @@ body {
   }
 }
 
-
+.back-btn, .ant-input-search-button {
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #8b4513, #a0522d);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
+  transition: all 0.3s ease;
+}
 
 
 .home-menu {
   background-color: red;
-  padding: 30px;
+  padding: 16px 20px;
   color: #fff;
   border-radius: 16px;
   min-width: 250px;
@@ -58,7 +75,6 @@ body {
   font-weight: bold;
   color: #fff;
   text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: 4px;
   transition: all 0.3s ease;
 }
