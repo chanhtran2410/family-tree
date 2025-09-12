@@ -226,8 +226,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    touch-action: pan-x;
-    /* Enable horizontal swipe */
+    touch-action: none; /* Disable default touch behaviors for custom gestures */
     overflow: hidden;
 }
 

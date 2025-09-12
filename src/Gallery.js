@@ -34,6 +34,9 @@ function Gallery() {
     const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+    // Pinch zoom state
+    const [initialPinchDistance, setInitialPinchDistance] = useState(0);
+    const [initialZoomLevel, setInitialZoomLevel] = useState(1);
     const observerRef = useRef();
     const touchStartX = useRef(0);
     const touchEndX = useRef(0);
@@ -98,6 +101,16 @@ function Gallery() {
     // Touch handlers for pinch zoom and pan
     const handleTouchStart = useCallback(
         (e) => {
+            // Helper function to calculate distance between two touch points
+            const getTouchDistance = (touches) => {
+                const touch1 = touches[0];
+                const touch2 = touches[1];
+                return Math.sqrt(
+                    Math.pow(touch2.clientX - touch1.clientX, 2) +
+                    Math.pow(touch2.clientY - touch1.clientY, 2)
+                );
+            };
+
             if (e.touches.length === 1) {
                 // Single touch - check if for navigation or panning
                 touchStartX.current = e.touches[0].clientX;
@@ -108,6 +121,13 @@ function Gallery() {
                         y: e.touches[0].clientY - zoomPosition.y,
                     });
                 }
+            } else if (e.touches.length === 2) {
+                // Two finger pinch - start zoom gesture
+                e.preventDefault();
+                const distance = getTouchDistance(e.touches);
+                setInitialPinchDistance(distance);
+                setInitialZoomLevel(zoomLevel);
+                setIsDragging(false); // Stop any ongoing drag
             }
         },
         [zoomLevel, zoomPosition]
@@ -115,6 +135,16 @@ function Gallery() {
 
     const handleTouchMove = useCallback(
         (e) => {
+            // Helper function to calculate distance between two touch points
+            const getTouchDistance = (touches) => {
+                const touch1 = touches[0];
+                const touch2 = touches[1];
+                return Math.sqrt(
+                    Math.pow(touch2.clientX - touch1.clientX, 2) +
+                    Math.pow(touch2.clientY - touch1.clientY, 2)
+                );
+            };
+
             if (e.touches.length === 1) {
                 if (zoomLevel > 1 && isDragging) {
                     // Panning when zoomed
@@ -127,13 +157,29 @@ function Gallery() {
                     // Navigation swipe
                     touchEndX.current = e.touches[0].clientX;
                 }
+            } else if (e.touches.length === 2 && initialPinchDistance > 0) {
+                // Two finger pinch - zoom gesture
+                e.preventDefault();
+                const currentDistance = getTouchDistance(e.touches);
+                const scaleChange = currentDistance / initialPinchDistance;
+                // Apply some smoothing to make zoom feel more natural
+                const smoothedScale = Math.pow(scaleChange, 0.8);
+                const newZoomLevel = Math.max(
+                    MIN_ZOOM,
+                    Math.min(MAX_ZOOM, initialZoomLevel * smoothedScale)
+                );
+                setZoomLevel(newZoomLevel);
             }
         },
-        [zoomLevel, isDragging, dragStart]
+        [zoomLevel, isDragging, dragStart, initialPinchDistance, initialZoomLevel, MIN_ZOOM, MAX_ZOOM]
     );
 
     const handleTouchEnd = useCallback(() => {
         setIsDragging(false);
+        
+        // Reset pinch zoom state
+        setInitialPinchDistance(0);
+        setInitialZoomLevel(1);
 
         if (!touchStartX.current || !touchEndX.current || zoomLevel > 1) {
             touchStartX.current = 0;
@@ -204,22 +250,6 @@ function Gallery() {
         },
         [zoomLevel, zoomPosition]
     );
-
-    // const handleMouseMove = useCallback(
-    //     (e) => {
-    //         if (isDragging && zoomLevel > 1) {
-    //             setZoomPosition({
-    //                 x: e.clientX - dragStart.x,
-    //                 y: e.clientY - dragStart.y,
-    //             });
-    //         }
-    //     },
-    //     [isDragging, zoomLevel, dragStart]
-    // );
-
-    // const handleMouseUp = useCallback(() => {
-    //     setIsDragging(false);
-    // }, []);
 
     // Reset zoom when changing images
     useEffect(() => {
