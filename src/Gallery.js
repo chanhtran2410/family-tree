@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, {
+    useState,
+    useEffect,
+    useRef,
+    useCallback,
+    useMemo,
+} from 'react';
 import { Spin } from 'antd';
 import {
     LeftOutlined,
@@ -46,6 +52,20 @@ function Gallery() {
     const MAX_ZOOM = 3;
 
     const allImages = getImagePaths();
+
+    // Helper function to constrain zoom position within reasonable bounds
+    const constrainPosition = useCallback((position, zoom) => {
+        if (zoom <= 1) return { x: 0, y: 0 };
+
+        // Calculate reasonable bounds based on zoom level
+        const maxOffset =
+            Math.min(window.innerWidth, window.innerHeight) * (zoom - 1) * 0.5;
+
+        return {
+            x: Math.max(-maxOffset, Math.min(maxOffset, position.x)),
+            y: Math.max(-maxOffset, Math.min(maxOffset, position.y)),
+        };
+    }, []);
 
     // Load more items when scrolling
     const loadMoreItems = useCallback(() => {
@@ -107,7 +127,7 @@ function Gallery() {
                 const touch2 = touches[1];
                 return Math.sqrt(
                     Math.pow(touch2.clientX - touch1.clientX, 2) +
-                    Math.pow(touch2.clientY - touch1.clientY, 2)
+                        Math.pow(touch2.clientY - touch1.clientY, 2)
                 );
             };
 
@@ -141,7 +161,7 @@ function Gallery() {
                 const touch2 = touches[1];
                 return Math.sqrt(
                     Math.pow(touch2.clientX - touch1.clientX, 2) +
-                    Math.pow(touch2.clientY - touch1.clientY, 2)
+                        Math.pow(touch2.clientY - touch1.clientY, 2)
                 );
             };
 
@@ -149,10 +169,11 @@ function Gallery() {
                 if (zoomLevel > 1 && isDragging) {
                     // Panning when zoomed
                     e.preventDefault();
-                    setZoomPosition({
+                    const newPosition = {
                         x: e.touches[0].clientX - dragStart.x,
                         y: e.touches[0].clientY - dragStart.y,
-                    });
+                    };
+                    setZoomPosition(constrainPosition(newPosition, zoomLevel));
                 } else {
                     // Navigation swipe
                     touchEndX.current = e.touches[0].clientX;
@@ -168,26 +189,52 @@ function Gallery() {
                     MIN_ZOOM,
                     Math.min(MAX_ZOOM, initialZoomLevel * smoothedScale)
                 );
+
+                // Handle position reset when zooming out to 1x or below
+                if (newZoomLevel <= 1) {
+                    setZoomPosition({ x: 0, y: 0 });
+                } else if (newZoomLevel < zoomLevel) {
+                    // Scale down position when zooming out
+                    const scaleRatio = newZoomLevel / zoomLevel;
+                    setZoomPosition((prevPos) => ({
+                        x: prevPos.x * scaleRatio,
+                        y: prevPos.y * scaleRatio,
+                    }));
+                }
+
                 setZoomLevel(newZoomLevel);
             }
         },
-        [zoomLevel, isDragging, dragStart, initialPinchDistance, initialZoomLevel, MIN_ZOOM, MAX_ZOOM]
+        [
+            zoomLevel,
+            isDragging,
+            dragStart,
+            initialPinchDistance,
+            initialZoomLevel,
+            MIN_ZOOM,
+            MAX_ZOOM,
+            constrainPosition,
+        ]
     );
 
     const handleTouchEnd = useCallback(() => {
         setIsDragging(false);
-        
+
         // Reset pinch zoom state
         setInitialPinchDistance(0);
         setInitialZoomLevel(1);
 
-        if (!touchStartX.current || !touchEndX.current || zoomLevel > 1) {
+        // Use refs to avoid stale closure issues and improve performance
+        const startX = touchStartX.current;
+        const endX = touchEndX.current;
+
+        if (!startX || !endX || zoomLevel > 1) {
             touchStartX.current = 0;
             touchEndX.current = 0;
             return;
         }
 
-        const distance = touchStartX.current - touchEndX.current;
+        const distance = startX - endX;
         const threshold = 50; // minimum distance for swipe
 
         if (distance > threshold) {
@@ -198,9 +245,7 @@ function Gallery() {
 
         touchStartX.current = 0;
         touchEndX.current = 0;
-    }, [nextImage, prevImage, zoomLevel]);
-
-    // Zoom handlers
+    }, [nextImage, prevImage, zoomLevel]); // Zoom handlers
     const resetZoom = useCallback(() => {
         setZoomLevel(1);
         setZoomPosition({ x: 0, y: 0 });
@@ -211,16 +256,45 @@ function Gallery() {
     }, [MAX_ZOOM]);
 
     const zoomOut = useCallback(() => {
-        setZoomLevel((prev) => Math.max(prev - 0.2, MIN_ZOOM));
+        setZoomLevel((prev) => {
+            const newZoom = Math.max(prev - 0.2, MIN_ZOOM);
+            // If zooming out to 1x or below, reset position to center
+            if (newZoom <= 1) {
+                setZoomPosition({ x: 0, y: 0 });
+            } else {
+                // Scale down the position proportionally when zooming out
+                const scaleRatio = newZoom / prev;
+                setZoomPosition((prevPos) => ({
+                    x: prevPos.x * scaleRatio,
+                    y: prevPos.y * scaleRatio,
+                }));
+            }
+            return newZoom;
+        });
     }, [MIN_ZOOM]);
 
     const handleWheel = useCallback(
         (e) => {
             e.preventDefault();
             const delta = e.deltaY > 0 ? -0.1 : 0.1;
-            setZoomLevel((prev) =>
-                Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, prev + delta))
-            );
+            setZoomLevel((prev) => {
+                const newZoom = Math.max(
+                    MIN_ZOOM,
+                    Math.min(MAX_ZOOM, prev + delta)
+                );
+                // If zooming out to 1x or below, reset position to center
+                if (newZoom <= 1) {
+                    setZoomPosition({ x: 0, y: 0 });
+                } else if (newZoom < prev) {
+                    // Scale down position when zooming out
+                    const scaleRatio = newZoom / prev;
+                    setZoomPosition((prevPos) => ({
+                        x: prevPos.x * scaleRatio,
+                        y: prevPos.y * scaleRatio,
+                    }));
+                }
+                return newZoom;
+            });
         },
         [MIN_ZOOM, MAX_ZOOM]
     );
@@ -256,14 +330,47 @@ function Gallery() {
         resetZoom();
     }, [currentImageIndex, resetZoom]);
 
+    // Preload adjacent images for smooth navigation
+    useEffect(() => {
+        if (!isViewerOpen) return;
+
+        const preloadImage = (index) => {
+            if (index >= 0 && index < allImages.length) {
+                const img = new Image();
+                img.src = allImages[index].path;
+            }
+        };
+
+        // Preload next and previous images
+        const nextIndex = (currentImageIndex + 1) % allImages.length;
+        const prevIndex =
+            (currentImageIndex - 1 + allImages.length) % allImages.length;
+
+        preloadImage(nextIndex);
+        preloadImage(prevIndex);
+    }, [currentImageIndex, isViewerOpen, allImages]);
+
+    // Memoize transform and cursor styles to reduce re-calculations
+    const imageStyle = useMemo(
+        () => ({
+            transform: `scale(${zoomLevel}) translate(${
+                zoomPosition.x / zoomLevel
+            }px, ${zoomPosition.y / zoomLevel}px)`,
+            cursor:
+                zoomLevel > 1 ? (isDragging ? 'grabbing' : 'grab') : 'zoom-in',
+        }),
+        [zoomLevel, zoomPosition.x, zoomPosition.y, isDragging]
+    );
+
     // Mouse event listeners for drag functionality
     useEffect(() => {
         const handleGlobalMouseMove = (e) => {
             if (isDragging && zoomLevel > 1) {
-                setZoomPosition({
+                const newPosition = {
                     x: e.clientX - dragStart.x,
                     y: e.clientY - dragStart.y,
-                });
+                };
+                setZoomPosition(constrainPosition(newPosition, zoomLevel));
             }
         };
 
@@ -280,20 +387,10 @@ function Gallery() {
             document.removeEventListener('mousemove', handleGlobalMouseMove);
             document.removeEventListener('mouseup', handleGlobalMouseUp);
         };
-    }, [isDragging, zoomLevel, dragStart]);
+    }, [isDragging, zoomLevel, dragStart, constrainPosition]);
 
     // Keyboard navigation
     useEffect(() => {
-        const nextImage = () => {
-            setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
-        };
-
-        const prevImage = () => {
-            setCurrentImageIndex(
-                (prev) => (prev - 1 + allImages.length) % allImages.length
-            );
-        };
-
         const handleKeyDown = (e) => {
             if (!isViewerOpen) return;
 
@@ -329,7 +426,15 @@ function Gallery() {
 
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [isViewerOpen, allImages.length, zoomLevel, zoomIn, zoomOut, resetZoom]);
+    }, [
+        isViewerOpen,
+        zoomLevel,
+        zoomIn,
+        zoomOut,
+        resetZoom,
+        nextImage,
+        prevImage,
+    ]);
 
     // Get currently visible images for rendering
     const visibleImages = allImages.slice(0, visibleItems);
@@ -408,17 +513,7 @@ function Gallery() {
                                 }`}
                                 onDoubleClick={handleDoubleClick}
                                 onMouseDown={handleMouseDown}
-                                style={{
-                                    transform: `scale(${zoomLevel}) translate(${
-                                        zoomPosition.x / zoomLevel
-                                    }px, ${zoomPosition.y / zoomLevel}px)`,
-                                    cursor:
-                                        zoomLevel > 1
-                                            ? isDragging
-                                                ? 'grabbing'
-                                                : 'grab'
-                                            : 'zoom-in',
-                                }}
+                                style={imageStyle}
                             />
                             <div className="viewer-image-info">
                                 <p>{allImages[currentImageIndex]?.title}</p>
@@ -487,8 +582,8 @@ function Gallery() {
     );
 }
 
-// Lazy loading image component
-const LazyImage = ({ src, alt, className, title }) => {
+// Lazy loading image component - Memoized to prevent unnecessary re-renders
+const LazyImage = React.memo(({ src, alt, className, title }) => {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isInView, setIsInView] = useState(false);
     const imgRef = useRef();
@@ -534,6 +629,6 @@ const LazyImage = ({ src, alt, className, title }) => {
             )}
         </div>
     );
-};
+});
 
 export default Gallery;

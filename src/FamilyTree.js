@@ -16,10 +16,9 @@ import treeData from './treeData.json';
 
 // 🔹 Bảng màu cho từng đời
 const levelColors = [
-    '#ffa39e', // đời 2 (hồng nhạt)
-    '#95de64', // đời 3 (xanh lá)
-    '#69c0ff', // đời 4 (xanh dương)
-    '#d3adf7', // đời 5 (tím nhạt)
+    '#f5b48cff', // đời 2 (hồng nhạt)
+    '#a5db81ff', // đời 3 (xanh lá)
+    '#8ac8f5ff', // đời 4 (xanh dương)
 ];
 
 // --- Node Tùy Chỉnh ---
@@ -302,7 +301,7 @@ function CayGiaPha({
     useEffect(() => {
         if (nodes.length > 0) {
             // setActiveId(nodes[0].id);
-            setCenter(nodes[0].position.x + 90, nodes[0].position.y + 320, {
+            setCenter(nodes[0].position.x + 100, nodes[0].position.y + 480, {
                 zoom: 0.8,
                 duration: 800,
             });
