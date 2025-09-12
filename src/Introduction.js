@@ -34,7 +34,7 @@ function Introduction() {
                     <p>
                         Cũng chính vì thế nên từ xưa nhiều dòng họ đã lập nên
                         gia phả, mục đích để con cháu đời sau biết được nguồn
-                        gốc lai lịch, thân thế và sự nghiệp các tổ tiên dòng
+                        gốc lai lịch, thân thế và sự nghiệp các đời tổ tiên dòng
                         tộc. Theo dòng chảy của thời gian, họ Trần chúng ta cùng
                         trải qua bao nỗi thăng trầm trong những cuộc kháng chiến
                         đầy gian nan và khốc liệt, đã có không ít người phải hy
@@ -56,7 +56,7 @@ function Introduction() {
                     <p>
                         Ông bà ta tuy nghèo nhưng sống có đạo lý, hiếu nghĩa cần
                         kiệm, chăm chỉ tự khai khẩn đất đai làm ăn sinh sống để
-                        lại cho con cháu sau này, lương hiếu kính với tổ tiên,
+                        lại cho con cháu sau này, luôn hiếu kính với tổ tiên,
                         ông bà cha mẹ, không quên công ơn các bậc sinh thành đã
                         mất, cùng nhau quyên góp tiền của để cúng giỗ ông bà
                         trong các ngày đầu xuân và đông chí hàng năm. Phát huy
@@ -81,10 +81,11 @@ function Introduction() {
                     </div>
 
                     <p>
-                        Đây là nơi để con cháu họ Trần nội ngoại gần xa tề tựu
-                        về để dâng lên tổ tiên ông bà cây hương chén nước, để tỏ
-                        lòng thành kính tri ân trong những dịp tết đến xuân về
-                        và các ngày cúng giỗ hàng năm.
+                        Nhà thờ trước là nơi để thờ phụng các đời tổ tiên ông
+                        bà. Sau là nơi để con cháu họ Trần nội ngoại gần xa tề
+                        tựu về để dâng lên cây hương chén nước, để tỏ lòng thành
+                        kính tri ân trong những dịp tết đến xuân về và các ngày
+                        cúng giỗ hàng năm.
                     </p>
 
                     <p>

@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Spin } from 'antd';
-import { LeftOutlined, RightOutlined, CloseOutlined } from '@ant-design/icons';
+import {
+    LeftOutlined,
+    RightOutlined,
+    CloseOutlined,
+    PlusOutlined,
+    MinusOutlined,
+    HomeOutlined,
+} from '@ant-design/icons';
 import './Gallery.css';
 
 // Get image paths without importing them immediately
@@ -22,10 +29,18 @@ function Gallery() {
     const [loading, setLoading] = useState(false);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    // Zoom state management
+    const [zoomLevel, setZoomLevel] = useState(1);
+    const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
     const observerRef = useRef();
     const touchStartX = useRef(0);
     const touchEndX = useRef(0);
+    const imageRef = useRef();
     const BATCH_SIZE = 12;
+    const MIN_ZOOM = 0.5;
+    const MAX_ZOOM = 3;
 
     const allImages = getImagePaths();
 
@@ -80,17 +95,51 @@ function Gallery() {
         );
     }, [allImages.length]);
 
-    // Touch handlers for swipe
-    const handleTouchStart = useCallback((e) => {
-        touchStartX.current = e.touches[0].clientX;
-    }, []);
+    // Touch handlers for pinch zoom and pan
+    const handleTouchStart = useCallback(
+        (e) => {
+            if (e.touches.length === 1) {
+                // Single touch - check if for navigation or panning
+                touchStartX.current = e.touches[0].clientX;
+                if (zoomLevel > 1) {
+                    setIsDragging(true);
+                    setDragStart({
+                        x: e.touches[0].clientX - zoomPosition.x,
+                        y: e.touches[0].clientY - zoomPosition.y,
+                    });
+                }
+            }
+        },
+        [zoomLevel, zoomPosition]
+    );
 
-    const handleTouchMove = useCallback((e) => {
-        touchEndX.current = e.touches[0].clientX;
-    }, []);
+    const handleTouchMove = useCallback(
+        (e) => {
+            if (e.touches.length === 1) {
+                if (zoomLevel > 1 && isDragging) {
+                    // Panning when zoomed
+                    e.preventDefault();
+                    setZoomPosition({
+                        x: e.touches[0].clientX - dragStart.x,
+                        y: e.touches[0].clientY - dragStart.y,
+                    });
+                } else {
+                    // Navigation swipe
+                    touchEndX.current = e.touches[0].clientX;
+                }
+            }
+        },
+        [zoomLevel, isDragging, dragStart]
+    );
 
     const handleTouchEnd = useCallback(() => {
-        if (!touchStartX.current || !touchEndX.current) return;
+        setIsDragging(false);
+
+        if (!touchStartX.current || !touchEndX.current || zoomLevel > 1) {
+            touchStartX.current = 0;
+            touchEndX.current = 0;
+            return;
+        }
 
         const distance = touchStartX.current - touchEndX.current;
         const threshold = 50; // minimum distance for swipe
@@ -103,7 +152,105 @@ function Gallery() {
 
         touchStartX.current = 0;
         touchEndX.current = 0;
-    }, [nextImage, prevImage]);
+    }, [nextImage, prevImage, zoomLevel]);
+
+    // Zoom handlers
+    const resetZoom = useCallback(() => {
+        setZoomLevel(1);
+        setZoomPosition({ x: 0, y: 0 });
+    }, []);
+
+    const zoomIn = useCallback(() => {
+        setZoomLevel((prev) => Math.min(prev + 0.2, MAX_ZOOM));
+    }, [MAX_ZOOM]);
+
+    const zoomOut = useCallback(() => {
+        setZoomLevel((prev) => Math.max(prev - 0.2, MIN_ZOOM));
+    }, [MIN_ZOOM]);
+
+    const handleWheel = useCallback(
+        (e) => {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? -0.1 : 0.1;
+            setZoomLevel((prev) =>
+                Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, prev + delta))
+            );
+        },
+        [MIN_ZOOM, MAX_ZOOM]
+    );
+
+    const handleDoubleClick = useCallback(
+        (e) => {
+            e.stopPropagation();
+            if (zoomLevel === 1) {
+                setZoomLevel(2);
+            } else {
+                resetZoom();
+            }
+        },
+        [zoomLevel, resetZoom]
+    );
+
+    // Mouse drag handlers for panning
+    const handleMouseDown = useCallback(
+        (e) => {
+            if (zoomLevel > 1) {
+                setIsDragging(true);
+                setDragStart({
+                    x: e.clientX - zoomPosition.x,
+                    y: e.clientY - zoomPosition.y,
+                });
+            }
+        },
+        [zoomLevel, zoomPosition]
+    );
+
+    // const handleMouseMove = useCallback(
+    //     (e) => {
+    //         if (isDragging && zoomLevel > 1) {
+    //             setZoomPosition({
+    //                 x: e.clientX - dragStart.x,
+    //                 y: e.clientY - dragStart.y,
+    //             });
+    //         }
+    //     },
+    //     [isDragging, zoomLevel, dragStart]
+    // );
+
+    // const handleMouseUp = useCallback(() => {
+    //     setIsDragging(false);
+    // }, []);
+
+    // Reset zoom when changing images
+    useEffect(() => {
+        resetZoom();
+    }, [currentImageIndex, resetZoom]);
+
+    // Mouse event listeners for drag functionality
+    useEffect(() => {
+        const handleGlobalMouseMove = (e) => {
+            if (isDragging && zoomLevel > 1) {
+                setZoomPosition({
+                    x: e.clientX - dragStart.x,
+                    y: e.clientY - dragStart.y,
+                });
+            }
+        };
+
+        const handleGlobalMouseUp = () => {
+            setIsDragging(false);
+        };
+
+        if (isDragging) {
+            document.addEventListener('mousemove', handleGlobalMouseMove);
+            document.addEventListener('mouseup', handleGlobalMouseUp);
+        }
+
+        return () => {
+            document.removeEventListener('mousemove', handleGlobalMouseMove);
+            document.removeEventListener('mouseup', handleGlobalMouseUp);
+        };
+    }, [isDragging, zoomLevel, dragStart]);
 
     // Keyboard navigation
     useEffect(() => {
@@ -122,13 +269,28 @@ function Gallery() {
 
             switch (e.key) {
                 case 'ArrowLeft':
-                    prevImage();
+                    if (zoomLevel === 1) {
+                        prevImage();
+                    }
                     break;
                 case 'ArrowRight':
-                    nextImage();
+                    if (zoomLevel === 1) {
+                        nextImage();
+                    }
                     break;
                 case 'Escape':
                     closeViewer();
+                    break;
+                case '+':
+                case '=':
+                    zoomIn();
+                    break;
+                case '-':
+                case '_':
+                    zoomOut();
+                    break;
+                case '0':
+                    resetZoom();
                     break;
                 default:
                     break;
@@ -137,7 +299,7 @@ function Gallery() {
 
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
-    }, [isViewerOpen, allImages.length]);
+    }, [isViewerOpen, allImages.length, zoomLevel, zoomIn, zoomOut, resetZoom]);
 
     // Get currently visible images for rendering
     const visibleImages = allImages.slice(0, visibleItems);
@@ -191,7 +353,10 @@ function Gallery() {
 
                         <button
                             className="viewer-nav-btn prev-btn"
-                            onClick={prevImage}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                prevImage();
+                            }}
                         >
                             <LeftOutlined />
                         </button>
@@ -201,12 +366,29 @@ function Gallery() {
                             onTouchStart={handleTouchStart}
                             onTouchMove={handleTouchMove}
                             onTouchEnd={handleTouchEnd}
+                            onWheel={handleWheel}
                             onClick={(e) => e.stopPropagation()}
                         >
                             <img
+                                ref={imageRef}
                                 src={allImages[currentImageIndex]?.path}
                                 alt={allImages[currentImageIndex]?.title}
-                                className="viewer-image"
+                                className={`viewer-image ${
+                                    zoomLevel > 1 ? 'zoomed' : ''
+                                }`}
+                                onDoubleClick={handleDoubleClick}
+                                onMouseDown={handleMouseDown}
+                                style={{
+                                    transform: `scale(${zoomLevel}) translate(${
+                                        zoomPosition.x / zoomLevel
+                                    }px, ${zoomPosition.y / zoomLevel}px)`,
+                                    cursor:
+                                        zoomLevel > 1
+                                            ? isDragging
+                                                ? 'grabbing'
+                                                : 'grab'
+                                            : 'zoom-in',
+                                }}
                             />
                             <div className="viewer-image-info">
                                 <p>{allImages[currentImageIndex]?.title}</p>
@@ -216,9 +398,55 @@ function Gallery() {
                             </div>
                         </div>
 
+                        {/* Zoom Controls */}
+                        <div
+                            className="zoom-controls"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <button
+                                className="zoom-btn"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    zoomOut();
+                                }}
+                                disabled={zoomLevel <= MIN_ZOOM}
+                                title="Zoom Out"
+                            >
+                                <MinusOutlined />
+                            </button>
+                            <div className="zoom-level-display">
+                                {Math.round(zoomLevel * 100)}%
+                            </div>
+                            <button
+                                className="zoom-btn"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    zoomIn();
+                                }}
+                                disabled={zoomLevel >= MAX_ZOOM}
+                                title="Zoom In"
+                            >
+                                <PlusOutlined />
+                            </button>
+                            <button
+                                className="zoom-btn"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    resetZoom();
+                                }}
+                                disabled={zoomLevel === 1}
+                                title="Reset Zoom"
+                            >
+                                <HomeOutlined />
+                            </button>
+                        </div>
+
                         <button
                             className="viewer-nav-btn next-btn"
-                            onClick={nextImage}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                nextImage();
+                            }}
                         >
                             <RightOutlined />
                         </button>
